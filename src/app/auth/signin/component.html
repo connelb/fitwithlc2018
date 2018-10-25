@@ -1,0 +1,85 @@
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form class="example-form">
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+              <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+          <td><mat-form-field class="example-full-width">
+            <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+          </mat-form-field></td>
+        </tr></table>
+      </form>
+      <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="signin($event)" color="primary">Login</button>
+    </mat-card-actions>
+  </mat-card>
+
+<!-- <mat-card>
+
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Email" [formControl]="emailFormControl">
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is
+        <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-card>
+
+<div class="row signin justify-content-center">
+  <div class="col-lg-4 text-center element-center">
+    <form #signinFrom="ngForm" (ngSubmit)="signin($event)" method="post">
+      <h2 class="form-signin-heading text-capitalize">Please sign in yo!</h2>
+      <p *ngIf="statusMessage" class="alert {{statusClass}}">
+        {{statusMessage}}
+      </p>
+      <div class="form-group">
+        <label for="inputUsername" class="sr-only">Email address</label>
+        <input type="email" id="inputUsername" [(ngModel)]="username" placeholder="Email address" class="form-control" name="username"
+          required autofocus />
+        <div *ngIf="formErrors && formErrors.username" class="alert alert-danger">
+          {{ formErrors.username }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" [(ngModel)]="password" placeholder="Password" class="form-control" required name="password"
+        />
+        <div *ngIf="formErrors && formErrors.password" class="alert alert-danger">
+          {{ formErrors.password }}
+        </div>
+      </div>
+      <div *ngIf="submissionError" class="alert alert-danger">
+        {{ submissionError }}
+      </div>
+      <div class="form-group">
+        <a routerLink="/forgot-password">
+          <strong>Forgot Password?</strong>
+        </a>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-lg btn-primary text-capitalize btn-block" type='submit' [disabled]="!signinFrom.form.valid || submitted">
+          <i class="fa fa-lock" aria-hidden="true"></i>
+          Sign in
+        </button>
+      </div>
+    </form>
+    <app-loading *ngIf="submitted"></app-loading>
+  </div>
+</div> -->

@@ -1,0 +1,188 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "2017-06-06T09:59:18Z",
+    "title": "nu-datascience-project3"
+  },
+  "host": "21mc36v931.execute-api.us-east-2.amazonaws.com",
+  "basePath": "/dev",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/api": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "CompareData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CompareData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bax-renalcare-disposable-users": []
+          }
+        ],
+        "x-amazon-apigateway-request-validator": "Validate body",
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "#set($inputRoot = $input.path('$'))\n{\n  \"age\" : \"$inputRoot.age\",\n  \"height\": \"$inputRoot.height\",\n  \"income\": \"$inputRoot.income\",\n  \"userId\": \"$context.authorizer.claims.sub\"\n}"
+          },
+          "uri": "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:123779530835:function:nu-datascience-project3/invocations",
+          "passthroughBehavior": "when_no_templates",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws"
+        }
+      },
+      "options": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Methods": {
+                "type": "string"
+              },
+              "Access-Control-Allow-Headers": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200",
+              "responseParameters": {
+                "method.response.header.Access-Control-Allow-Methods": "'DELETE,POST,OPTIONS'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Origin": "'*'"
+              }
+            }
+          },
+          "requestTemplates": {
+            "application/json": "{\"statusCode\": 200}"
+          },
+          "passthroughBehavior": "when_no_match",
+          "type": "mock"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bax-renalcare-disposable-users": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "x-amazon-apigateway-authtype": "cognito_user_pools",
+      "x-amazon-apigateway-authorizer": {
+        "providerARNs": [
+          "arn:aws:cognito-idp:us-east-2:123779530835:userpool/us-east-2_1ygprTG66"
+        ],
+        "type": "cognito_user_pools"
+      }
+    }
+  },
+  "definitions": {
+    "CompareData": {
+      "type": "object",
+      "required": [
+        "age",
+        "height",
+        "income"
+      ],
+      "properties": {
+        "age": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "income": {
+          "type": "integer"
+        }
+      },
+      "title": "CompareData"
+    },
+    "Empty": {
+      "type": "object",
+      "title": "Empty Schema"
+    },
+    "CompareDataArray": {
+      "title": "CompareData",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "income": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "age",
+          "height",
+          "income"
+        ]
+      }
+    }
+  },
+  "x-amazon-apigateway-request-validators": {
+    "Validate body": {
+      "validateRequestParameters": false,
+      "validateRequestBody": true
+    },
+    "Validate query string parameters and headers": {
+      "validateRequestParameters": true,
+      "validateRequestBody": false
+    }
+  }
+}

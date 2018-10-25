@@ -1,0 +1,147 @@
+<!-- <mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+        
+      <a mat-list-item href="#">My Groups</a>
+      <a mat-list-item href="#">Settings</a>
+      <a mat-list-item href="#">Help</a>
+    
+    <a mat-list-item href="#">Help2</a>
+    <mat-divider></mat-divider>
+    <a mat-list-item href="#">Help3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Fit With LC</span>
+    </mat-toolbar>
+
+  </mat-sidenav-content>
+</mat-sidenav-container> -->
+
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation" (click)="sidenav.toggle()">
+    <!-- <span (click)="drawer.toggle()">Title??</span> -->
+    <mat-nav-list>
+      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/photos">
+        <mat-icon class="icon">photo</mat-icon>
+        <span class="label">Photo</span>
+      </a>
+      <a *ngIf="!isAuthenticated()" mat-list-item routerLink="/signin">
+        <mat-icon class="icon">login</mat-icon>
+        <span class="label">LogIn</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/">
+        <mat-icon class="icon">home</mat-icon>
+        <span class="label">Home</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/dashboard">
+        <mat-icon class="icon">dashboard</mat-icon>
+        <span class="label">dashboard</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/signout">
+        <mat-icon class="icon">logout</mat-icon>
+        <span class="label">LogOut</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/settings">
+        <mat-icon class="icon">settings</mat-icon>
+        <span class="label">Settings</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/profile">
+        <mat-icon class="icon">person</mat-icon>
+        <span class="label">Profile (name)</span>
+      </a>
+      <a *ngIf="!isAuthenticated()" mat-list-item routerLink="/register">
+        <mat-icon class="icon">register</mat-icon>
+        <span class="label">Register</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" (click)="sidenav.toggle()">
+      <div fxHide.gt-xs>
+        <button mat-icon-button>
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+      <div>
+        <a routerLink="/">
+          <strong>Fit With LC</strong>
+        </a>
+      </div>
+      <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
+        <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+          <li>
+            <a *ngIf="isAuthenticated()" routerLink="/photos">
+              <mat-icon class="icon">photo</mat-icon>
+              <span class="label">Photo</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="!isAuthenticated()" routerLink="/signin">
+              <mat-icon class="icon">login</mat-icon>
+              <span class="label">LogIn</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated()" routerLink="/">
+              <mat-icon class="icon">home</mat-icon>
+              <span class="label">Home</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated()" routerLink="/dashboard">
+              <mat-icon class="icon">dashboard</mat-icon>
+              <span class="label">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated()" routerLink="/signout">
+              <mat-icon class="icon">logout</mat-icon>
+              <span class="label">LogOut</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated()" routerLink="/upload">
+              <mat-icon class="icon">input</mat-icon>
+              <span class="label">Upload</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated()" routerLink="/settings">
+              <mat-icon class="icon">settings</mat-icon>
+              <span class="label">Settings</span>
+            </a>
+            <a *ngIf="isAuthenticated()" routerLink="/profile">
+              <mat-icon class="icon">person</mat-icon>
+              <span class="label">Profile (name)</span>
+            </a>
+            <a *ngIf="!isAuthenticated()" routerLink="/register">
+              <mat-icon class="icon">register</mat-icon>
+              <span class="label">Register</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </mat-toolbar>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
