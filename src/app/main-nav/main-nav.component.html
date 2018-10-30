@@ -39,35 +39,47 @@
   <mat-sidenav #sidenav role="navigation" (click)="sidenav.toggle()">
     <!-- <span (click)="drawer.toggle()">Title??</span> -->
     <mat-nav-list>
-      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/photos">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/upload']">
+        <mat-icon class="icon">file</mat-icon>
+        <span class="label">Upload</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/download']">
+        <mat-icon class="icon">file</mat-icon>
+        <span class="label">Download</span>
+      </a>
+      <!-- <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/compare']">
+        <mat-icon class="icon">weather</mat-icon>
+        <span class="label">Compare</span>
+      </a> -->
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/photos']">
         <mat-icon class="icon">photo</mat-icon>
         <span class="label">Photo</span>
       </a>
-      <a *ngIf="!isAuthenticated()" mat-list-item routerLink="/signin">
+      <a *ngIf="!isAuthenticated()" mat-list-item [routerLink]="['/signin']">
         <mat-icon class="icon">login</mat-icon>
         <span class="label">LogIn</span>
       </a>
-      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/']">
         <mat-icon class="icon">home</mat-icon>
         <span class="label">Home</span>
       </a>
-      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/dashboard">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/dashboard']">
         <mat-icon class="icon">dashboard</mat-icon>
         <span class="label">dashboard</span>
       </a>
-      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/signout">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/signout']">
         <mat-icon class="icon">logout</mat-icon>
         <span class="label">LogOut</span>
       </a>
-      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/settings">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/settings']">
         <mat-icon class="icon">settings</mat-icon>
         <span class="label">Settings</span>
       </a>
-      <a *ngIf="isAuthenticated()" mat-list-item routerLink="/profile">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/profile']">
         <mat-icon class="icon">person</mat-icon>
         <span class="label">Profile (name)</span>
       </a>
-      <a *ngIf="!isAuthenticated()" mat-list-item routerLink="/register">
+      <a *ngIf="!isAuthenticated()" mat-list-item [routerLink]="['/register']">
         <mat-icon class="icon">register</mat-icon>
         <span class="label">Register</span>
       </a>
@@ -82,57 +94,79 @@
       </div>
       <div>
         <a routerLink="/">
-          <strong>Fit With LC</strong>
+          <strong>Balance</strong>
         </a>
       </div>
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
-            <a *ngIf="isAuthenticated()" routerLink="/photos">
+            <a [routerLink]="['/upload']">
+              <mat-icon class="file">file</mat-icon>
+              <span class="Upload">Upload</span>
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/download']">
+              <mat-icon class="file">file</mat-icon>
+              <span class="Download">Download</span>
+            </a>
+          </li>
+          <!-- <li>
+            <a [routerLink]="['/compare']">
+              <mat-icon class="icon">picture</mat-icon>
+              <span class="label">Compare</span>
+            </a>
+          </li> -->
+          <li>
+            <a *ngIf="isAuthenticated()" [routerLink]="['/photos']">
               <mat-icon class="icon">photo</mat-icon>
               <span class="label">Photo</span>
             </a>
           </li>
           <li>
-            <a *ngIf="!isAuthenticated()" routerLink="/signin">
+            <a *ngIf="!isAuthenticated()" [routerLink]="['/signin']">
               <mat-icon class="icon">login</mat-icon>
               <span class="label">LogIn</span>
             </a>
           </li>
           <li>
-            <a *ngIf="isAuthenticated()" routerLink="/">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/']">
               <mat-icon class="icon">home</mat-icon>
               <span class="label">Home</span>
             </a>
           </li>
           <li>
-            <a *ngIf="isAuthenticated()" routerLink="/dashboard">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/dashboard']">
               <mat-icon class="icon">dashboard</mat-icon>
               <span class="label">Dashboard</span>
             </a>
           </li>
           <li>
-            <a *ngIf="isAuthenticated()" routerLink="/signout">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/signout']">
               <mat-icon class="icon">logout</mat-icon>
               <span class="label">LogOut</span>
             </a>
           </li>
           <li>
-            <a *ngIf="isAuthenticated()" routerLink="/upload">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/upload']">
               <mat-icon class="icon">input</mat-icon>
               <span class="label">Upload</span>
             </a>
           </li>
           <li>
-            <a *ngIf="isAuthenticated()" routerLink="/settings">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/settings']">
               <mat-icon class="icon">settings</mat-icon>
               <span class="label">Settings</span>
             </a>
-            <a *ngIf="isAuthenticated()" routerLink="/profile">
+          </li>
+          <li>
+            <a *ngIf="isAuthenticated()" [routerLink]="['/profile']">
               <mat-icon class="icon">person</mat-icon>
               <span class="label">Profile (name)</span>
             </a>
-            <a *ngIf="!isAuthenticated()" routerLink="/register">
+          </li>
+          <li>
+            <a *ngIf="!isAuthenticated()" [routerLink]="['/register']">
               <mat-icon class="icon">register</mat-icon>
               <span class="label">Register</span>
             </a>

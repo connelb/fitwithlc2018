@@ -10,6 +10,7 @@ import {Cloudinary} from '@cloudinary/angular-5.x';
 export class PhotoAlbum {
 
     url:string = 'http://res.cloudinary.com/captiveConnections/image/list/v1540380124/myphotoalbum.json'
+    //http://res.cloudinary.com/captiveConnections/image/list/v1540380124/myphotoalbum.json
 
     constructor(private http: HttpClient, private cloudinary: Cloudinary) {
     }
@@ -28,8 +29,10 @@ export class PhotoAlbum {
             version: Math.ceil(new Date().getTime() / 1000)
         });
 
+        console.log('url',url);
+
         return this.http
             .get(this.url)
-            .pipe(map((data: any) => data.resources));
+            .pipe(map((data: any) => {console.log('photo-service',data);return data.resources}));
     }
 }

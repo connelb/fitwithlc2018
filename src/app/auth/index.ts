@@ -1,5 +1,5 @@
-export {FirstTimePasswordComponent} from './password/first-time/component';
-export {ForgotPasswordComponent} from './password/forgot/component';
+export {FirstTimePasswordComponent} from './../auth/password/first-time/component';
+export {ForgotPasswordComponent} from './../auth/password/forgot/component';
 export {ResetPasswordComponent} from './password/reset/component';
 export {SigninComponent} from './signin/component';
 export {SignoutComponent} from './signout/component';

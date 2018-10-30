@@ -10,7 +10,7 @@ import {
 } from 'amazon-cognito-identity-js';
 import { CognitoIdentityCredentials, config as AWSConfig, AWSError } from 'aws-sdk';
 
-import { cognitoConfig } from '../../config';
+import { cognitoConfig } from './../../config/index';
 import { User, SignupData } from './types';
 import { Dictionary } from '../../types';
 import { URLUtil } from '../../utils';
@@ -277,6 +277,7 @@ export class AuthService {
         } else {
             //this.router.navigate(['home']);
             this.isAuthenticated = true;
+            //this.router.navigate(['authenticated']);
             this.router.navigate(['authenticated']);
             //console.log('handleRedirect()  called')
         }

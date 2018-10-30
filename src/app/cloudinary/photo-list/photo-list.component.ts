@@ -10,6 +10,8 @@ import {Photo} from '../model/photo';
 })
 export class PhotoListComponent implements OnInit {
 
+    //https://res.cloudinary.com/captiveconnections/image/list/v1540181836/myphotoalbum.json
+
     photos: Observable<Photo[]>;
     private publicId: string = 'officialchucknorrispage';
     errorOccurred: boolean = false

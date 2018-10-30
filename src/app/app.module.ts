@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+
 // import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -43,6 +45,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 //import { DashboardComponent } from './dashboard/dashboard.component';
 import { SettingsComponent } from './settings/settings.component';
+// import { CompareComponent } from './compare/compare.component';
+// import { CompareInputComponent} from './compare/compare-input/compare-input.component';
+// import { CompareResultsComponent} from './compare/compare-results/compare-results.component';
+
 //import { appRoutes } from './app.routing';
 // import { CountryDetailComponent } from './country-detail/country-detail.component';
 // import { CountryListComponent } from './country-list/country-list.component';
@@ -109,6 +115,9 @@ import { AppCloudinaryModule } from './cloudinary/cloudinary.module';
     //     AppComponent,
     // DashboardComponent,
     SettingsComponent,
+    // CompareComponent,
+    // CompareInputComponent,
+    // CompareResultsComponent,
     // CountryDetailComponent,
     // CountryListComponent,
     // CountryMaintComponent,
@@ -127,6 +136,7 @@ import { AppCloudinaryModule } from './cloudinary/cloudinary.module';
     BrowserModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     
     // FwModule,
     BrowserAnimationsModule,

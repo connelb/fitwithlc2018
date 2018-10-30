@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
+import { AuthService } from '../../auth';
 import {
   FileObject,
   ContainerEvents,
@@ -11,7 +12,11 @@ import { S3 } from 'aws-sdk';
 /**
  * Single file upload component.
  */
-@Component({
+
+ //https://nu-datascience-bootcamp-files.s3.us-east-2.amazonaws.com/?list-type=2&prefix=connellbl/us-east-2:ce4169b0-1c8d-4f16-ae19-945cf0288c3e
+//https://s3.us-east-2.amazonaws.com/nu-datascience-bootcamp-files/connellbl/us-east-2%3Ace4169b0-1c8d-4f16-ae19-945cf0288c3e/2018/9/28/avatar.png
+
+ @Component({
   moduleId: module.id,
   selector: 'app-file-upload',
   templateUrl: 'component.html',

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from './../auth';
+import { AuthService } from './../auth/service';
 import { SettingsComponent } from './../settings/settings.component'
 
 @Component({
@@ -30,14 +30,21 @@ export class MainNavComponent {
   //    //this.authService.getCurrentUser((err, currentSignedInUser) => {return currentSignedInUser}))
   //   //return this.authService.currentStatus == 'signedIn';
   // } 
-
-  public isAuthenticated(): boolean {
+  ngOnInit(): void {
+    this.isAuthenticated()
+  }
+  
+  isAuthenticated(): boolean {
     // Check whether the current time is past the
     // Access Token's expiry time
     // console.log(this.authService.currentStatus);
-    console.log(this.authService.isAuthenticated);
-    return this.authService.isAuthenticated;
+    //console.log(this.authService.isAuthenticated);
+    if(this.authService.isAuthenticated){
+      return true;
+    }
+    
     //new Date().getTime() < this.authService.cognitoAwsCredentials.expireTime.getDate();
   }
+
 
 }

@@ -5,7 +5,8 @@ import { User } from './../auth/types';
 import { ContainerEvents, FileObject } from './types';
 import { S3 } from 'aws-sdk';
 import { S3Factory } from '../../utils';
-import { s3Config } from '../../config';
+import { s3Config } from '../../config/index';
+import { AuthService} from './../auth';
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class UploadService {
   private signedInUser: User;
   private defaultRegion: string;
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.defaultRegion = 'us-east-2';
   }
 
@@ -45,16 +46,18 @@ export class UploadService {
   private preparePutObjectRequest(file: File, region: string): S3.Types.PutObjectRequest {
     const now = new Date();
     const obj = {
-      Key: [this.signedInUser.username,
-      this.signedInUser.userId,
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
+      Key: [
+      // this.authService.cognitoAwsCredentials.params['LoginId'],
+      this.authService.cognitoAwsCredentials.params['IdentityId'],
+      // now.getUTCFullYear(),
+      // now.getUTCMonth(),
+      // now.getUTCDate(),
       file.name].join('/'),
       Bucket: s3Config[region],
       Body: file,
       ContentType: file.type
     };
+  
     return obj;
     
     // return {
@@ -71,7 +74,7 @@ export class UploadService {
   }
 
   upload(file: File, progressCallback: (error: Error, progress: number, speed: number) => void, region?: string) {
-    if (!this.signedInUser) {
+    if (!this.authService.isAuthenticated) {
       progressCallback(new Error('User not signed in'), undefined, undefined);
       return;
     }
