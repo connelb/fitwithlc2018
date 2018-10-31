@@ -36,8 +36,8 @@
 
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav role="navigation" (click)="sidenav.toggle()">
-    <!-- <span (click)="drawer.toggle()">Title??</span> -->
+  <mat-sidenav #sidenav role="navigation">
+    <!-- (<span (click)="drawer.toggle()">Title??</span>  -->
     <mat-nav-list>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/upload']">
         <mat-icon class="icon">file</mat-icon>
@@ -47,10 +47,10 @@
         <mat-icon class="icon">file</mat-icon>
         <span class="label">Download</span>
       </a>
-      <!-- <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/compare']">
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/compare']">
         <mat-icon class="icon">weather</mat-icon>
         <span class="label">Compare</span>
-      </a> -->
+      </a>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/photos']">
         <mat-icon class="icon">photo</mat-icon>
         <span class="label">Photo</span>
@@ -73,11 +73,11 @@
       </a>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/settings']">
         <mat-icon class="icon">settings</mat-icon>
-        <span class="label">Settings</span>
+        <!-- <span class="label">Settings</span> -->
       </a>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/profile']">
         <mat-icon class="icon">person</mat-icon>
-        <span class="label">Profile (name)</span>
+        <!-- <span class="label">Profile (name)</span> -->
       </a>
       <a *ngIf="!isAuthenticated()" mat-list-item [routerLink]="['/register']">
         <mat-icon class="icon">register</mat-icon>
@@ -86,10 +86,11 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" (click)="sidenav.toggle()">
+    <mat-toolbar color="primary">
+        <!-- (click)="sidenav.toggle()" -->
       <div fxHide.gt-xs>
-        <button mat-icon-button>
-          <mat-icon>menu</mat-icon>
+        <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
+          <mat-icon >menu</mat-icon>
         </button>
       </div>
       <div>
@@ -100,23 +101,23 @@
       <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
         <ul fxLayout fxLayoutGap="20px" class="navigation-items">
           <li>
-            <a [routerLink]="['/upload']">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/upload']">
               <mat-icon class="file">file</mat-icon>
               <span class="Upload">Upload</span>
             </a>
           </li>
           <li>
-            <a [routerLink]="['/download']">
+            <a *ngIf="isAuthenticated()" [routerLink]="['/download']">
               <mat-icon class="file">file</mat-icon>
               <span class="Download">Download</span>
             </a>
           </li>
-          <!-- <li>
-            <a [routerLink]="['/compare']">
+          <li>
+            <a *ngIf="isAuthenticated()" [routerLink]="['/compare']">
               <mat-icon class="icon">picture</mat-icon>
               <span class="label">Compare</span>
             </a>
-          </li> -->
+          </li>
           <li>
             <a *ngIf="isAuthenticated()" [routerLink]="['/photos']">
               <mat-icon class="icon">photo</mat-icon>

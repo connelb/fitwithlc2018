@@ -11,6 +11,7 @@ export class AuthenticatedUserComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    return true;
   }
 
   // isAuthenticated(){

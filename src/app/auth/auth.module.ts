@@ -9,6 +9,7 @@ import { AuthGuard1 } from './auth-guard.service1';
 import { SharedModule } from '../shared/shared.module';
 // import { LoadingComponent } from './../loading/component';
 
+
 import {
   AuthService,
   FirstTimePasswordComponent,
@@ -17,13 +18,23 @@ import {
   SigninComponent,
   SignoutComponent
 } from './../auth';
+import { RegisterComponent } from '../register/register.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     SharedModule,
+    FormsModule, ReactiveFormsModule ,
     RouterModule.forChild([
-      { path: 'signin', component: SigninComponent }
+      // { path: 'signin', component: SigninComponent },
+      { path: 'firsttime', component: FirstTimePasswordComponent },
+      { path: 'forgt', component: ForgotPasswordComponent },
+      { path: 'reset', component: ResetPasswordComponent },
+      { path: 'signin', component: SigninComponent },
+      { path: 'signout', component: SignoutComponent },
+      { path: 'register', component: RegisterComponent},
+
     ])
   ],
   declarations: [
@@ -32,7 +43,8 @@ import {
     ForgotPasswordComponent,
     ResetPasswordComponent,
     SigninComponent,
-    SignoutComponent
+    SignoutComponent,
+    RegisterComponent,
   ],
   providers: [
     AuthService,

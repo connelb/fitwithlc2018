@@ -28,35 +28,37 @@ import { AuthenticatedUserComponent } from './authenticated-user/authenticated-u
 import { PageNotFoundComponent } from './page-not-found.component';
 import { PhotoListComponent } from './cloudinary/photo-list/photo-list.component';
 import { PhotoUploadComponent } from './cloudinary/photo-album/photo-upload.component';
-//import { CompareComponent } from './compare/compare.component'; //CompareComponent 
+import { CompareComponent } from './compare/compare.component'; //CompareComponent 
 
 
 const routes: Routes = [
-  { path: '', component: UploadContainerComponent, pathMatch: 'full' },
-  //{ path: '', redirectTo: 'welcome', pathMatch: 'full' },
-  // { path: 'welcome', component: WelcomeComponent },
+  //{ path: '', component: UploadContainerComponent, pathMatch: 'full' },
+  { path: '', redirectTo: 'welcome', pathMatch: 'full' },
+  { path: 'welcome', component: WelcomeComponent },
   //{ path: 'compare', component: CompareComponent},
-  { path: 'signin', component: SigninComponent },
-  // { path: 'settings', component: SettingsComponent },
-  // { path: 'signout', component: SignoutComponent },
-  // { path: 'profile', component: MyProfileComponent },
-  // { path: 'register', component: RegisterComponent },
-  { path: 'photos', component: PhotoListComponent },
-  { path: 'download', component: DownloadComponent},
-  { path: 'upload', component: UploadContainerComponent},
-  // { path: 'photos/new', component: PhotoUploadComponent },
-  {
-    path: 'authenticated', component: AuthenticatedUserComponent,
-    children: [
-      { path: '', redirectTo: 'photos', pathMatch: 'full' },
-      { path: 'photos', component: PhotoListComponent },
-      //{ path: 'compare', component: CompareComponent},
-      { path: 'upload', component: UploadContainerComponent},
-      { path: 'download', component: DownloadComponent},
-    ]
-  },
+  // { path: 'signin', component: SigninComponent },
+  // // { path: 'settings', component: SettingsComponent },
+  
+ 
+  // // { path: 'register', component: RegisterComponent },
+  // // { path: 'photos', component: PhotoListComponent },
+  // // { path: 'download', component: DownloadComponent},
+  // // { path: 'upload', component: UploadContainerComponent},
+  // // { path: 'photos/new', component: PhotoUploadComponent },
+  // {
+  //   path: 'authenticated', component: AuthenticatedUserComponent,
+  //   children: [
+  //     { path: 'photos', component: PhotoListComponent },
+  //     { path: 'compare', component: CompareComponent},
+  //     { path: 'upload', component: UploadContainerComponent},
+  //     { path: 'download', component: DownloadComponent},
+  //     { path: 'profile', component: MyProfileComponent },
+  //     { path: 'signout', component: SignoutComponent }
+  //     // { path: '', redirectTo: 'welcome', pathMatch: 'full' }
+  //   ]
+  // },
 
-  { path: '**', component: PhotoListComponent }
+  { path: '**', component: PageNotFoundComponent  }
 ]
 
 // const routes: Routes = [
