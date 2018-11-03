@@ -1,43 +1,41 @@
-<!-- <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport="true"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+    <mat-toolbar color="primary" (click)="drawer.toggle()">Menu</mat-toolbar>
     <mat-nav-list>
-        
-      <a mat-list-item href="#">My Groups</a>
-      <a mat-list-item href="#">Settings</a>
-      <a mat-list-item href="#">Help</a>
-    
-    <a mat-list-item href="#">Help2</a>
-    <mat-divider></mat-divider>
-    <a mat-list-item href="#">Help3</a>
+      <a *ngIf="!isAuthenticated()" mat-list-item [routerLink]="['/signin']">
+        <mat-icon class="icon">login</mat-icon>
+        <span class="label">LogIn</span>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/compare']">
+        <mat-icon class="icon">weather</mat-icon>
+        <span class="label">Compare</span>
+      </a>
+      <mat-divider></mat-divider>
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/settings']">
+        <mat-icon class="icon">settings</mat-icon>
+      </a>
+      <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/profile']">
+        <mat-icon class="icon">person</mat-icon>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Fit With LC</span>
+      <span (click)="drawer.toggle()">Menu</span>
     </mat-toolbar>
-
+    <main>
+      <router-outlet></router-outlet>
+    </main>
   </mat-sidenav-content>
-</mat-sidenav-container> -->
+</mat-sidenav-container>
 
 
-<mat-sidenav-container>
-  <mat-sidenav #sidenav role="navigation">
-    <!-- (<span (click)="drawer.toggle()">Title??</span>  -->
+<!-- <mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation" (click)="sidenav.toggle()">
     <mat-nav-list>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/upload']">
         <mat-icon class="icon">file</mat-icon>
@@ -73,11 +71,9 @@
       </a>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/settings']">
         <mat-icon class="icon">settings</mat-icon>
-        <!-- <span class="label">Settings</span> -->
       </a>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/profile']">
         <mat-icon class="icon">person</mat-icon>
-        <!-- <span class="label">Profile (name)</span> -->
       </a>
       <a *ngIf="!isAuthenticated()" mat-list-item [routerLink]="['/register']">
         <mat-icon class="icon">register</mat-icon>
@@ -87,7 +83,6 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-        <!-- (click)="sidenav.toggle()" -->
       <div fxHide.gt-xs>
         <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isHandset$ | async">
           <mat-icon >menu</mat-icon>
@@ -179,4 +174,4 @@
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container> -->

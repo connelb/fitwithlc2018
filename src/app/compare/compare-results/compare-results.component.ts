@@ -57,9 +57,9 @@ export class CompareResultsComponent implements OnInit {
   }
 
   onGetResults() {
-    this.compareService.onRetrieveData();
+    // this.compareService.onRetrieveData();
   }
   onClearData() {
-    this.compareService.onDeleteData();
+    // this.compareService.onDeleteData();
   }
 }

@@ -3,8 +3,8 @@ import { CompareData } from '../compare-data.model';
 import { NgForm } from '@angular/forms';
 
 import { CompareService } from '../compare.service';
-import { UploadContainerComponent } from '../../upload';
-import { FileUploadComponent } from '../../upload';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
+
 
 @Component({
   selector: 'app-compare-input',
@@ -16,7 +16,11 @@ export class CompareInputComponent implements OnInit {
   isLoading = false;
   couldNotLoadData = false;
 
-  constructor(private compareService: CompareService, private uploadContainer:UploadContainerComponent) {
+  constructor(private compareService: CompareService, private bottomSheet: MatBottomSheet) {
+  }
+
+  openBottomSheet(): void {
+    this.bottomSheet.open(BottomSheetOverviewExampleSheet);
   }
 
   ngOnInit() {
@@ -29,6 +33,8 @@ export class CompareInputComponent implements OnInit {
         this.isLoading = false;
       }
     );
+
+
   }
 
   onSubmit() {
@@ -41,12 +47,19 @@ export class CompareInputComponent implements OnInit {
   }
 
   onFetchStoredData() {
-    this.compareService.onRetrieveData(false);
+    // this.compareService.onRetrieveData(false);
   }
+}
 
-  uploadFile(){
-    //this.uploadContainer.upload() 
+@Component({
+  selector: 'bottom-sheet-overview-example-sheet',
+  templateUrl: 'bottom-sheet-overview-example-sheet.html',
+})
+export class BottomSheetOverviewExampleSheet {
+  constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheetOverviewExampleSheet>) {}
+
+  openLink(event: MouseEvent): void {
+    this.bottomSheetRef.dismiss();
+    event.preventDefault();
   }
-
-
 }

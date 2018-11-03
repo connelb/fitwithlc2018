@@ -34,12 +34,19 @@ import { AppCloudinaryModule } from './../cloudinary/cloudinary.module';
 import { AuthenicatedComponent } from './authenicated.component';
 import { AuthenticatedUserComponent } from '../authenticated-user/authenticated-user.component';
 import { SharedModule } from '../shared/shared.module';
+import { CompareInputComponent } from '../compare/compare-input/compare-input.component';
+import { CompareResultsComponent } from '../compare/compare-results/compare-results.component';
+import { MatBottomSheetModule } from '@angular/material';
+import { BottomSheetOverviewExampleSheet } from '../compare/compare-input/compare-input.component';
+
+
 
 @NgModule({
   imports: [
     SharedModule,
     AppCloudinaryModule,
-    FormsModule, ReactiveFormsModule, 
+    FormsModule, ReactiveFormsModule,
+    MatBottomSheetModule, 
     RouterModule.forChild([
       //{
         // path: 'authenicated',component: ProductListComponent,
@@ -64,12 +71,16 @@ import { SharedModule } from '../shared/shared.module';
     DashboardComponent,
     SettingsComponent,
     CompareComponent,
-    // CompareInputComponent,
-    // CompareResultsComponent,
+    CompareInputComponent,
+    CompareResultsComponent,
     //WelcomeComponent,
     MyProfileComponent,
     AuthenicatedComponent,
-    AuthenticatedUserComponent 
+    AuthenticatedUserComponent,
+    BottomSheetOverviewExampleSheet 
+  ],
+  entryComponents: [
+    BottomSheetOverviewExampleSheet
   ],
   providers: [
     // ProductService,

@@ -10,8 +10,8 @@ export class CompareComponent implements OnInit {
   doInput = true;
   constructor(private compareService: CompareService) {}
   ngOnInit() {
-    // this.compareService.dataEdited.subscribe(
-    //   (edited: boolean) => this.doInput = !edited
-    // );
+    this.compareService.dataEdited.subscribe(
+      (edited: boolean) => this.doInput = !edited
+    );
   }
 }

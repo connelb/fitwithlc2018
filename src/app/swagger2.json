@@ -120,7 +120,7 @@
       "x-amazon-apigateway-authtype": "cognito_user_pools",
       "x-amazon-apigateway-authorizer": {
         "providerARNs": [
-          "arn:aws:cognito-idp:us-east-2:123779530835:userpool/us-east-2_1ygprTG66"
+          "arn:aws:cognito-idp:us-east-2:123779530835:userpool/us-east-2_anVjFCJgc"
         ],
         "type": "cognito_user_pools"
       }
