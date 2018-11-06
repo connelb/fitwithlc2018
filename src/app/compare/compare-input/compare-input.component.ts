@@ -6,6 +6,8 @@ import { CompareService } from '../compare.service';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material';
 
 
+
+
 @Component({
   selector: 'app-compare-input',
   templateUrl: './compare-input.component.html',
@@ -24,6 +26,8 @@ export class CompareInputComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.openBottomSheet();
+
     this.compareService.dataIsLoading.subscribe(
       (isLoading: boolean) => this.isLoading = isLoading
     );

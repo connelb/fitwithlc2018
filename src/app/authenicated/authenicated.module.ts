@@ -38,7 +38,7 @@ import { CompareInputComponent } from '../compare/compare-input/compare-input.co
 import { CompareResultsComponent } from '../compare/compare-results/compare-results.component';
 import { MatBottomSheetModule } from '@angular/material';
 import { BottomSheetOverviewExampleSheet } from '../compare/compare-input/compare-input.component';
-
+import { WorkoutInputComponent } from '../compare/workout-input/workout-input.component';
 
 
 @NgModule({
@@ -77,7 +77,8 @@ import { BottomSheetOverviewExampleSheet } from '../compare/compare-input/compar
     MyProfileComponent,
     AuthenicatedComponent,
     AuthenticatedUserComponent,
-    BottomSheetOverviewExampleSheet 
+    BottomSheetOverviewExampleSheet,
+    WorkoutInputComponent 
   ],
   entryComponents: [
     BottomSheetOverviewExampleSheet
