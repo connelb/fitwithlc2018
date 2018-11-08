@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
 import { CompareData } from './compare-data.model';
+import { Workout } from '../models/workout';
 import { AuthService } from '../auth/service';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class CompareService {
   dataLoaded = new Subject<CompareData[]>();
   dataLoadFailed = new Subject<boolean>();
   userData: CompareData;
+  workoutData: Workout;
   constructor(private http: Http,
               private authService: AuthService) {
   }
@@ -37,6 +39,36 @@ export class CompareService {
             this.dataEdited.next(true);
           },
           (error) => {
+            this.dataIsLoading.next(false);
+            this.dataLoadFailed.next(true);
+            this.dataEdited.next(false);
+          }
+        );
+    });
+  }
+
+  onStoreData1(data: Workout) {
+    this.dataLoadFailed.next(false);
+    this.dataIsLoading.next(true);
+    this.dataEdited.next(false);
+    this.workoutData = data;
+    this.authService.getAuthenticatedUser().getSession((err, session) => {
+      if (err) {
+        return;
+      }
+      this.http.post('https://8no7onyzd9.execute-api.us-east-2.amazonaws.com/dev/api', data, {
+        headers: new Headers({'Authorization': session.getIdToken().getJwtToken()})
+      })
+        .subscribe(
+          
+          (result) => {
+            console.log('success',data);
+            this.dataLoadFailed.next(false);
+            this.dataIsLoading.next(false);
+            this.dataEdited.next(true);
+          },
+          (error) => {
+            console.log('error',data);
             this.dataIsLoading.next(false);
             this.dataLoadFailed.next(true);
             this.dataEdited.next(false);

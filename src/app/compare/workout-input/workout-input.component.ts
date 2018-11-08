@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 //import { ContactRequest } from '../../../models/contact-request';
 import { Workout } from '../../models/workout';
+import { CompareService } from '../compare.service';
+import * as moment from 'moment';
 
 
 @Component({
@@ -10,25 +12,35 @@ import { Workout } from '../../models/workout';
   styleUrls: ['./workout-input.component.css']
 })
 export class WorkoutInputComponent implements OnInit {
+  //@ViewChild('compareForm') form: NgForm;
+  isLoading = false;
+  couldNotLoadData = false;
   workoutForm: FormGroup;
 
-  // countries = ['USA', 'Germany', 'Italy', 'France'];
-  // requestTypes = ['Claim', 'Feedback', 'Help Request'];
-
-  constructor(private fb: FormBuilder) {
-  this.workoutForm = this.createFormGroupWithBuilderAndModel(this.fb);
-   }
+  constructor(private compareService: CompareService, private fb: FormBuilder) {
+    this.workoutForm = this.createFormGroupWithBuilderAndModel(this.fb);
+  }
 
   workout = new Workout();
 
   ngOnInit() {
-    //workout = new this.workout()
+    //private workout = new Workout()
     this.createFormGroupWithBuilderAndModel(this.fb);
+
+    this.compareService.dataIsLoading.subscribe(
+      (isLoading: boolean) => this.isLoading = isLoading
+    );
+    this.compareService.dataLoadFailed.subscribe(
+      (didFail: boolean) => {
+        this.couldNotLoadData = didFail;
+        this.isLoading = false;
+      }
+    );
   }
 
   createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
     return formBuilder.group({
-      personalData: formBuilder.group(this.workout)
+      workoutData: formBuilder.group(this.workout)
     });
   }
 
@@ -47,10 +59,13 @@ export class WorkoutInputComponent implements OnInit {
   onSubmit() {
     // Make sure to create a deep copy of the form-model
     const result: Workout = Object.assign({}, this.workoutForm.value);
-    // result = Object.assign({}, result);
+
+    const data: Workout = {
+      'date': result['workoutData']['date'].toString()
+    };
 
     // Do useful stuff with the gathered data
-    console.log(result);
+    this.compareService.onStoreData1(data)
   }
 
 }
