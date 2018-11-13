@@ -1,0 +1,25 @@
+:host { display: block }
+
+.d3-chart .axis path,
+.d3-chart .axis line {
+  stroke:black;
+}
+
+.d3-chart .axis text {
+  fill:black;
+}
+
+rect {
+  fill:none;
+  stroke: darkslategray;
+}
+
+.line {
+  fill: none;
+  stroke: #EF5285;
+  stroke-width: 2px;
+}
+
+.area {
+  fill: #e7e7e7;
+}

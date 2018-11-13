@@ -39,6 +39,8 @@ import { CompareResultsComponent } from '../compare/compare-results/compare-resu
 import { MatBottomSheetModule } from '@angular/material';
 import { BottomSheetOverviewExampleSheet } from '../compare/compare-input/compare-input.component';
 import { WorkoutInputComponent } from '../compare/workout-input/workout-input.component';
+import { d3StreamComponent } from '../d3Stream/d3StreamComponent'
+import { D3Service } from "d3-ng2-service"
 
 
 @NgModule({
@@ -78,7 +80,8 @@ import { WorkoutInputComponent } from '../compare/workout-input/workout-input.co
     AuthenicatedComponent,
     AuthenticatedUserComponent,
     BottomSheetOverviewExampleSheet,
-    WorkoutInputComponent 
+    WorkoutInputComponent,
+    d3StreamComponent 
   ],
   entryComponents: [
     BottomSheetOverviewExampleSheet
@@ -88,7 +91,8 @@ import { WorkoutInputComponent } from '../compare/workout-input/workout-input.co
     // ProductResolver
     CompareService,
     DownLoadService,
-    UploadService
+    UploadService,
+    D3Service
   ]
 })
 export class AuthenicatedModule { }

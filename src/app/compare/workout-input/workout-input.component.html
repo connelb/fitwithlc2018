@@ -16,6 +16,19 @@
     <!-- <button type="submit" [disabled]="workoutForm.pristine">Save</button>
     <button type="reset" (click)="revert()" [disabled]="workoutForm.pristine">Revert</button> -->
   </form>
+
+
+<h4>mat select</h4>
+<mat-form-field>
+  <mat-select placeholder="Favorite animal" [formControl]="animalControl" required>
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let animal of animals" [value]="animal">
+      {{animal.name}}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="animalControl.hasError('required')">Please choose an animal</mat-error>
+  <mat-hint>{{animalControl.value?.sound}}</mat-hint>
+</mat-form-field>
 </div>
 <p>Form value: {{ workoutForm.value | json }}</p>
 

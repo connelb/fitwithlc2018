@@ -1,3 +1,10 @@
+{{workoutData|json}}
+
+<div>
+        <app-d3Stream *ngIf="workoutData1" [data]="workoutData1" [width]="800" [height]="301"></app-d3Stream>
+</div>
+    
+
 <app-workout-input *ngIf="doInput"></app-workout-input>
 <hr>
 <!-- <app-compare-input *ngIf="doInput"></app-compare-input> -->

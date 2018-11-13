@@ -6,6 +6,12 @@ import { CompareService } from '../compare.service';
 import * as moment from 'moment';
 
 
+export interface Animal {
+  name: string;
+  sound: string;
+}
+
+
 @Component({
   selector: 'app-workout-input',
   templateUrl: './workout-input.component.html',
@@ -16,6 +22,15 @@ export class WorkoutInputComponent implements OnInit {
   isLoading = false;
   couldNotLoadData = false;
   workoutForm: FormGroup;
+
+  animalControl = new FormControl('', [Validators.required]);
+  selectFormControl = new FormControl('', Validators.required);
+  animals: Animal[] = [
+    {name: 'Dog', sound: 'Woof!'},
+    {name: 'Cat', sound: 'Meow!'},
+    {name: 'Cow', sound: 'Moo!'},
+    {name: 'Fox', sound: 'Wa-pa-pa-pa-pa-pa-pow!'},
+  ];
 
   constructor(private compareService: CompareService, private fb: FormBuilder) {
     this.workoutForm = this.createFormGroupWithBuilderAndModel(this.fb);
@@ -36,6 +51,8 @@ export class WorkoutInputComponent implements OnInit {
         this.isLoading = false;
       }
     );
+
+    this.compareService.onRetrieveData();
   }
 
   createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
@@ -61,8 +78,11 @@ export class WorkoutInputComponent implements OnInit {
     const result: Workout = Object.assign({}, this.workoutForm.value);
 
     const data: Workout = {
-      'date': result['workoutData']['date'].toString()
+      'date': result['workoutData']['date'].toString(),
+      'deleted':'false',
+      'group':'blah,blah'
     };
+    console.log(data);
 
     // Do useful stuff with the gathered data
     this.compareService.onStoreData1(data)

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { CompareService } from '../compare.service';
 import { CompareData } from '../compare-data.model';
+import { Workout } from '../../models/workout';
+import { Workout1 } from 'app/models/workout1';
 
 @Component({
   selector: 'app-compare-results',
@@ -10,10 +12,13 @@ import { CompareData } from '../compare-data.model';
 })
 export class CompareResultsComponent implements OnInit {
   compareData: CompareData[] = [];
+  workoutData: Workout1[] = [];
+ 
   didFail = false;
   user: CompareData;
   lowerIsBetter = false;
   filter = 'age';
+  errorMessage = '';
 
   constructor(private compareService: CompareService) {
   }
@@ -31,6 +36,8 @@ export class CompareResultsComponent implements OnInit {
     this.compareService.dataLoadFailed.subscribe(
       (didFail: boolean) => this.didFail = didFail
     );
+
+    
   }
 
   onFilter(filter: string) {
@@ -57,7 +64,7 @@ export class CompareResultsComponent implements OnInit {
   }
 
   onGetResults() {
-    // this.compareService.onRetrieveData();
+    this.compareService.onRetrieveData();
   }
   onClearData() {
     // this.compareService.onDeleteData();

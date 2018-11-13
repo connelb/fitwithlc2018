@@ -8,7 +8,7 @@ import { AuthGuard1 } from './auth-guard.service1';
 
 import { SharedModule } from '../shared/shared.module';
 // import { LoadingComponent } from './../loading/component';
-
+import { TokenInterceptor } from './token.interceptor';
 
 import {
   AuthService,
@@ -48,6 +48,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [
     AuthService,
+    TokenInterceptor,
     AuthGuard1
   ]
 })
