@@ -39,9 +39,12 @@ import { CompareResultsComponent } from '../compare/compare-results/compare-resu
 import { MatBottomSheetModule } from '@angular/material';
 import { BottomSheetOverviewExampleSheet } from '../compare/compare-input/compare-input.component';
 import { WorkoutInputComponent } from '../compare/workout-input/workout-input.component';
-import { d3StreamComponent } from '../d3Stream/d3StreamComponent'
-import { D3Service } from "d3-ng2-service"
-import { Calendar } from 'fullcalendar' 
+import { d3StreamComponent } from '../d3Stream/d3StreamComponent';
+import { D3Service } from "d3-ng2-service";
+//import { Calendar } from 'fullcalendar';
+import { FullCalendarModule } from 'ng-fullcalendar';
+import { EventSesrvice  } from './../compare/event.service'
+
 
 
 @NgModule({
@@ -49,7 +52,8 @@ import { Calendar } from 'fullcalendar'
     SharedModule,
     AppCloudinaryModule,
     FormsModule, ReactiveFormsModule,
-    MatBottomSheetModule, 
+    MatBottomSheetModule,
+    FullCalendarModule, 
     RouterModule.forChild([
       //{
         // path: 'authenicated',component: ProductListComponent,
@@ -94,7 +98,8 @@ import { Calendar } from 'fullcalendar'
     DownLoadService,
     UploadService,
     D3Service,
-    Calendar 
+    //Calendar,
+    EventSesrvice 
   ]
 })
 export class AuthenicatedModule { }
