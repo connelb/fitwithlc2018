@@ -41,6 +41,7 @@ import { BottomSheetOverviewExampleSheet } from '../compare/compare-input/compar
 import { WorkoutInputComponent } from '../compare/workout-input/workout-input.component';
 import { d3StreamComponent } from '../d3Stream/d3StreamComponent'
 import { D3Service } from "d3-ng2-service"
+import { Calendar } from 'fullcalendar' 
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { D3Service } from "d3-ng2-service"
     CompareService,
     DownLoadService,
     UploadService,
-    D3Service
+    D3Service,
+    Calendar 
   ]
 })
 export class AuthenicatedModule { }
