@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 //import { ContactRequest } from '../../../models/contact-request';
 import { Workout } from '../../models/workout';
+import { BalanceData } from '../../models/balance';
 import { CompareService } from '../compare.service';
 import * as moment from 'moment';
 
@@ -37,6 +38,7 @@ export class WorkoutInputComponent implements OnInit {
   }
 
   workout = new Workout();
+  //balance = new BalanceData();
 
   ngOnInit() {
     //private workout = new Workout()
@@ -77,11 +79,42 @@ export class WorkoutInputComponent implements OnInit {
     // Make sure to create a deep copy of the form-model
     const result: Workout = Object.assign({}, this.workoutForm.value);
 
-    const data: Workout = {
-      'date': result['workoutData']['date'].toString(),
-      'deleted':'false',
-      'group':'blah,blah'
-    };
+    const data: BalanceData = {
+        "timestamp": result['workoutData']['date'].toString(),
+        "groupId": "",
+        "workout": [
+          {
+            "duration": ""
+          },
+          {
+            "desc": ""
+          }
+        ],
+        "weight": "",
+        "measurement": [
+          {
+            "chest": ""
+          },
+          {
+            "leftArm": ""
+          },
+          {
+            "rightArm": ""
+          },
+          {
+            "waist": ""
+          },
+          {
+            "hips": ""
+          },
+          {
+            "leftThigh": ""
+          },
+          {
+            "rightThigh": ""
+          }
+        ]
+      };
     console.log(data);
 
     // Do useful stuff with the gathered data

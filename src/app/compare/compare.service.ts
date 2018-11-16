@@ -12,6 +12,7 @@ import 'rxjs/add/operator/map';
 import { CompareData } from './compare-data.model';
 import { Workout } from '../models/workout';
 import { Workout1 } from '../models/workout1';
+import { BalanceData } from '../models/balance';
 import { AuthService } from '../auth/service';
 
 @Injectable()
@@ -72,11 +73,11 @@ export class CompareService {
     });
   }
 
-  onStoreData1(data: Workout) {
+  onStoreData1(data: BalanceData ) {
     this.dataLoadFailed.next(false);
     this.dataIsLoading.next(true);
     this.dataEdited.next(false);
-    this.workoutData = data;
+    //this.workoutData = data;
     this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
         return;
