@@ -1,0 +1,71 @@
+{
+  "title": "BalanceModel",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "groupId": {
+      "type": "string"
+    },
+    "dataSet": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "measurements": {
+            "type": "object",
+            "properties": {
+              "chest": {
+                "type": "string"
+              },
+              "leftArm": {
+                "type": "string"
+              },
+              "rightArm": {
+                "type": "string"
+              },
+              "waist": {
+                "type": "string"
+              },
+              "hips": {
+                "type": "string"
+              },
+              "leftThigh": {
+                "type": "string"
+              },
+              "rightThigh": {
+                "type": "string"
+              }
+            }
+          },
+          "weight": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "string"
+              }
+            }
+          },
+          "workout": {
+            "type": "object",
+            "properties": {
+              "duration": {
+                "type": "string"
+              },
+              "desc": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,15 +1,15 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
-    <mat-toolbar color="primary" (click)="drawer.toggle()">Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-toolbar color="primary" ></mat-toolbar>
+    <mat-nav-list (click)="drawer.toggle()">
       <a *ngIf="!isAuthenticated()" mat-list-item [routerLink]="['/signin']">
         <mat-icon class="icon">login</mat-icon>
         <span class="label">LogIn</span>
       </a>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/compare']">
-        <mat-icon class="icon">weather</mat-icon>
-        <span class="label">Compare</span>
+        <mat-icon class="icon">event</mat-icon>
+        <!-- <span class="label">Compare</span> -->
       </a>
       <mat-divider></mat-divider>
       <a *ngIf="isAuthenticated()" mat-list-item [routerLink]="['/settings']">

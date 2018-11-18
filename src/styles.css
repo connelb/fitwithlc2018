@@ -1,5 +1,11 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "~fullcalendar/dist/fullcalendar.min.css";
+@import "~font-awesome/css/font-awesome.min.css";
+@import "~styles-lc.css";
+
+/* @import "~fullcalendar/dist/fullcalendar.min.css"; */
+html, body { height: 100%; }
+body { margin: 0px; font-family: 'Roboto', sans-serif; }
 
 .loader,
 .loader:after {

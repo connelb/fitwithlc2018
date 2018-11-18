@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { CompareService } from '../compare.service';
 import { CompareData } from '../compare-data.model';
-import { Workout } from '../../models/workout';
+//import { Workout } from '../../models/workout';
 import { Workout1 } from 'app/models/workout1';
 
 @Component({

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CompareService } from './compare.service';
 import { Workout1 } from 'app/models/workout1';
+import { BalanceData } from 'app/models/balance';
 
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
@@ -14,7 +15,7 @@ import { EventSesrvice } from './event.service';
 
 export class CompareComponent implements OnInit {
   doInput = true;
-  workoutData: Workout1[] = [];
+  workoutData: BalanceData[] = [];
   workoutData1: any = [
     { date: 'Tue Nov 13 2018 00:00:00 GMT-0600 (CST)', effort: 1 },
     { date: 'Wed Nov 14 2018 00:00:00 GMT-0600 (CST)', effort: 2 },

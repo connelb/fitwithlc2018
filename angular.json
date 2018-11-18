@@ -24,12 +24,9 @@
               {
                 "input": "src/styles-lc.css"
               },
-              "node_modules/font-awesome/css/font-awesome.css",
-              "src/styles.scss"
+              "src/styles.css"
             ],
-            "scripts": [
-
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -76,8 +73,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/jquery/dist/jquery.min.js"
             ],
             "styles": [
               {

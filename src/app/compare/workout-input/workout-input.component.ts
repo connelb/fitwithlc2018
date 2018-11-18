@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 //import { ContactRequest } from '../../../models/contact-request';
-import { Workout } from '../../models/workout';
-import { BalanceData } from '../../models/balance';
+//import { Workout } from '../../models/workout';
+import { BalanceData, BalanceDataClass } from '../../models/balance';
 import { CompareService } from '../compare.service';
 import * as moment from 'moment';
 
@@ -22,6 +22,7 @@ export class WorkoutInputComponent implements OnInit {
   //@ViewChild('compareForm') form: NgForm;
   isLoading = false;
   couldNotLoadData = false;
+  balance = new BalanceDataClass();
   workoutForm: FormGroup;
 
   animalControl = new FormControl('', [Validators.required]);
@@ -37,12 +38,14 @@ export class WorkoutInputComponent implements OnInit {
     this.workoutForm = this.createFormGroupWithBuilderAndModel(this.fb);
   }
 
-  workout = new Workout();
-  //balance = new BalanceData();
+  //workout = new Workout();
+ 
 
   ngOnInit() {
+    
     //private workout = new Workout()
     this.createFormGroupWithBuilderAndModel(this.fb);
+    console.log('what is this.workoutForm',this.workoutForm )
 
     this.compareService.dataIsLoading.subscribe(
       (isLoading: boolean) => this.isLoading = isLoading
@@ -59,7 +62,7 @@ export class WorkoutInputComponent implements OnInit {
 
   createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
     return formBuilder.group({
-      workoutData: formBuilder.group(this.workout)
+      workoutData: formBuilder.group(this.balance)
     });
   }
 
@@ -77,45 +80,42 @@ export class WorkoutInputComponent implements OnInit {
 
   onSubmit() {
     // Make sure to create a deep copy of the form-model
-    const result: Workout = Object.assign({}, this.workoutForm.value);
+    const result: BalanceData = Object.assign({}, this.workoutForm.value);
 
     const data: BalanceData = {
-        "timestamp": result['workoutData']['date'].toString(),
-        "groupId": "",
-        "workout": [
-          {
-            "duration": ""
-          },
-          {
-            "desc": ""
-          }
-        ],
-        "weight": "",
-        "measurement": [
-          {
-            "chest": ""
-          },
-          {
-            "leftArm": ""
-          },
-          {
-            "rightArm": ""
-          },
-          {
-            "waist": ""
-          },
-          {
-            "hips": ""
-          },
-          {
-            "leftThigh": ""
-          },
-          {
-            "rightThigh": ""
-          }
-        ]
+      "userId":"abeeee",
+      "group":"default",
+        "timestamp": result['workoutData']['timestamp'].toString(),
+        "groupId": "a",
+        "duration": "a",
+        "desc": "a",
+        "weight": "a",
+        "chest": "a",
+        "leftArm": "a",
+        "rightArm": "a",
+        "waist": "a",
+        "hips": "a",
+        "leftThigh": "a",
+        "rightThigh": "a"
       };
-    console.log(data);
+    //console.log(data);
+
+    // {
+    //   "userId": "02",
+    //   "timestamp": "a",
+    //   "group": "ll",
+    //   "groupId": "b",
+    //   "duration": "k",
+    //   "desc": "l",
+    //   "weight": "j",
+    //   "chest": "c",
+    //   "leftArm": "d",
+    //   "rightArm": "e",
+    //   "waist": "f",
+    //   "hips": "g",
+    //   "leftThigh": "h",
+    //   "rightThigh": "i"
+    // }
 
     // Do useful stuff with the gathered data
     this.compareService.onStoreData1(data)

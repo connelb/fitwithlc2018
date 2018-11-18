@@ -1,26 +1,26 @@
-.sidenav-container {
+/* .sidenav-container {
   height: 100%;
 }
 
 .sidenav {
-  width: 200px;
+  width: 100px;
 }
 
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
   color:#424F82;
-}
+} */
 
 mat-sidenav-container, mat-sidenav-content, mat-sidenav {
   height: 100%;
 }
 
 mat-sidenav {
-  width: 250px;
+  width: 100px;
   background-color:#74C0EB;
 }
-
+/* 
 a {
   text-decoration: none;
   color:#424F82;
@@ -53,4 +53,4 @@ a:active {
   line-height: 30px;
   margin: 10px;
   width: 85%;
-}
+} */
