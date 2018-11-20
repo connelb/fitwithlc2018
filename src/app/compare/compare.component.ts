@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { CompareService } from './compare.service';
 import { Workout1 } from 'app/models/workout1';
-import { BalanceData } from 'app/models/balance';
+import { BalanceData, BalanceDataClass } from 'app/models/balance';
 
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
@@ -15,52 +15,73 @@ import { EventSesrvice } from './event.service';
 
 export class CompareComponent implements OnInit {
   doInput = true;
-  workoutData: BalanceData[] = [];
+  @Input() calendarData: any = [];
+  graphData: any = [];
+  workoutData: BalanceData;
   workoutData1: any = [
-    { date: 'Tue Nov 13 2018 00:00:00 GMT-0600 (CST)', effort: 1 },
-    { date: 'Wed Nov 14 2018 00:00:00 GMT-0600 (CST)', effort: 2 },
-    { date: 'Thur Nov 15 2018 00:00:00 GMT-0600 (CST)', effort: 3 },
-    { date: 'Fri Nov 16 2018 00:00:00 GMT-0600 (CST)', effort: 4 },
-    { date: 'Sat Nov 17 2018 00:00:00 GMT-0600 (CST)', effort: 3 },
-    { date: 'Sun Nov 18 2018 00:00:00 GMT-0600 (CST)', effort: 3 },
-    { date: 'Mon Nov 19 2018 00:00:00 GMT-0600 (CST)', effort: 2 },
-    { date: 'Tue Nov 20 2018 00:00:00 GMT-0600 (CST)', effort: 1 },
+    // Object { title: "All Day Event", start: "2018-11-01" }
+    { title: "a", start: 'Tue Nov 13 2018 00:00:00 GMT-0600 (CST)' },
+    { title: "b", start: 'Wed Nov 14 2018 00:00:00 GMT-0600 (CST)' },
+    { title: "c", start: 'Thur Nov 15 2018 00:00:00 GMT-0600 (CST)' },
   ]
   calendarOptions: Options;
+  errorMessage: string;
   displayEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
 
 
   constructor(private compareService: CompareService, protected eventService: EventSesrvice) { }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.calendarData) {
+      console.log('calendarData changed')
+    }
+  }
 
   ngOnInit() {
-    this.eventService.getEvents().subscribe(data => {
-      this.calendarOptions = {
-        editable: true,
-        eventLimit: false,
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay,listMonth'
-        },
-        events: data
-      };
-    });
-    this.compareService.dataEdited.subscribe(
-      (edited: boolean) => this.doInput = !edited
-    );
-    
     this.compareService.getProducts().subscribe(
-      products => {
-        this.workoutData = products;
-      },
-      error => console.log(error)//this.errorMessage = <any>error
+      (data: BalanceData) => {
+        //this.workoutData = data;
+        //let temp = [];
+        let obj = {};
+        const dateObj = new Date();
+        const yearMonth = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1);
+        // console.log('data, only what dats and duration?', data['Items'])
+        for (let i = 0; i < data['Items'].length; i++) {
+          //console.log('element', data['Items'][i].Workout)
+          for (let j = 0; j < data['Items'][i].Workout.L.length; j++) {
+            for (let key in data['Items'][i].Workout.L[j].M) {
+              if(key === 'Duration'){
+              //console.log(data['Items'][i].Workout.L[j].M.Duration.S)
+              obj[i] = { start: data['Items'][i].Timestamp.S, allDay: true, Duration:parseInt(data['Items'][i].Workout.L[j].M.Duration.S)}
+              }
+            }
+          }
+
+          this.calendarData.push(obj[i])
+        };
+
+        this.calendarOptions = {
+          editable: true,
+          eventLimit: false,
+          header: {
+            left: 'prev,next,today',
+            //left: null,
+            center: 'title',
+            //right: 'month,agendaWeek,agendaDay,listMonth'
+            right: null
+          },
+          events: this.calendarData
+        };
+
+      }, // success path
+      error => this.errorMessage = error // error path
     );
   }
 
   clickButton(model: any) {
     this.displayEvent = model;
   }
+
   eventClick(model: any) {
     model = {
       event: {
@@ -92,6 +113,5 @@ export class CompareComponent implements OnInit {
     this.displayEvent = model;
   }
 
+}
 
-  }
-//}

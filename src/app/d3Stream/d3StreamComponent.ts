@@ -3,10 +3,11 @@ import * as d3 from 'd3';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { D3Service, D3, Selection } from 'd3-ng2-service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 interface ChartData {
   date: any,
-  effort: number
+  duration: number
 }
 // {date:'Tue Nov 13 2018 00:00:00 GMT-0600 (CST)', effort:1},
 
@@ -56,9 +57,13 @@ export class d3StreamComponent implements OnInit, OnChanges {
 
 
   ngOnInit() {
-    //console.log('what is the data??', this.data)  Object { date: "Tue Nov 13 2018 00:00:00 GMT-0600 (CST)", effort: 1, max: 4 }
 
-    //if (this.data) {
+    console.log('duration as a number?', this.data)
+
+    //0: Object { start: "Fri Nov 02 2018 00:00:00 GMT-0500 (CDT)", allDay: true, Duration: 30 }
+    // to do (1) nest my month, nest by week? 
+    // start change to month
+    //start change to week?
 
     let self = this;
     let d3 = this.d3;

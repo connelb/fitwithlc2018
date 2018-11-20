@@ -31,13 +31,13 @@ export class CompareService {
 
   private productsUrl = 'https://8no7onyzd9.execute-api.us-east-2.amazonaws.com/dev/api';
 
-  getProducts(): Observable<BalanceData[]> {
+  getProducts(): Observable<BalanceData> {
     //return this.http1.get<Workout1[]>(this.productsUrl)
     return this.authService.getAuthenticatedUser().getSession((err, session) => {
       if (err) {
         return;
       }
-      return this.http1.get<BalanceData[]>('https://8no7onyzd9.execute-api.us-east-2.amazonaws.com/dev/api', {
+      return this.http1.get<BalanceData>('https://8no7onyzd9.execute-api.us-east-2.amazonaws.com/dev/api', {
         headers: new HttpHeaders({ 'Authorization': session.getIdToken().getJwtToken() })
       })
         .pipe(
@@ -46,6 +46,7 @@ export class CompareService {
       );
   });
 }
+
 
 onStoreData(data: CompareData) {
   this.dataLoadFailed.next(false);
@@ -89,13 +90,13 @@ onStoreData1(data: BalanceData) {
       .subscribe(
 
         (result) => {
-          console.log('success?', data);
+          //console.log('success?', data);
           this.dataLoadFailed.next(false);
           this.dataIsLoading.next(false);
           this.dataEdited.next(true);
         },
         (error) => {
-          console.log('error?', data);
+          //console.log('error?', data);
           this.dataIsLoading.next(false);
           this.dataLoadFailed.next(true);
           this.dataEdited.next(false);

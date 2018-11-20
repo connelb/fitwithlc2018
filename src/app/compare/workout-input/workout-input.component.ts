@@ -45,7 +45,7 @@ export class WorkoutInputComponent implements OnInit {
     
     //private workout = new Workout()
     this.createFormGroupWithBuilderAndModel(this.fb);
-    console.log('what is this.workoutForm',this.workoutForm )
+    //console.log('what is this.workoutForm',this.workoutForm )
 
     this.compareService.dataIsLoading.subscribe(
       (isLoading: boolean) => this.isLoading = isLoading
@@ -87,7 +87,7 @@ export class WorkoutInputComponent implements OnInit {
       "group":"default",
         "timestamp": result['workoutData']['timestamp'].toString(),
         "groupId": "a",
-        "duration": "a",
+        "duration": "30",
         "desc": "a",
         "weight": "a",
         "chest": "a",
