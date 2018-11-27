@@ -13,7 +13,7 @@ export class BalanceDataClass {
     constructor(
         public userId?: String,
         public group?:String,
-        public timestamp?: String,
+        public timestamp?: Number,
         public groupId?: String,
         public duration?: String,
         public desc?: String,
@@ -31,7 +31,7 @@ export class BalanceDataClass {
 export interface BalanceData{
     userId: String;
     group: String;
-    timestamp: String;
+    timestamp: Number;
     groupId?: String;
     duration?: String;
     desc?: String;
@@ -43,7 +43,7 @@ export interface BalanceData{
     hips?: String;
     leftThigh?: String;
     rightThigh?: String;
-  }
+  }[]
 
 //   export interface BalanceData{
 //     userId: String;
@@ -86,7 +86,7 @@ export interface BalanceData{
 
   export interface BalanceData1{
     // userId: String;
-    timestamp: String;
+    timestamp: Number;
     group: String;
     groupId?: String;
     workout?: [

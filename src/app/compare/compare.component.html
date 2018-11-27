@@ -1,9 +1,11 @@
-<ng-container *ngIf="calendarOptions">
+<ng-container *ngIf="calendarData">
         <ng-fullcalendar #ucCalendar [options]="calendarOptions" (eventClick)="eventClick($event.detail)" (eventDrop)="updateEvent($event.detail)"
                 (eventResize)="updateEvent($event.detail)" (clickButton)="clickButton($event.detail)"></ng-fullcalendar>
 </ng-container>
-<ng-container>
-        <app-d3Stream *ngIf="calendarData" [data]="calendarData" [width]="800" [height]="301"></app-d3Stream>
+
+<!-- {{calendarData|json}} -->
+<ng-container *ngIf="workoutData">
+        <app-d3Stream  [data]="workoutData" [width]="800" [height]="200"></app-d3Stream>
 </ng-container>
 
 

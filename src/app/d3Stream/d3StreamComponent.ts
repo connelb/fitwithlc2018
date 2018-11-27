@@ -4,6 +4,9 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import { D3Service, D3, Selection } from 'd3-ng2-service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { callbackify } from 'util';
+//import { CompareService } from './../compare/compare.service';
+//import { BalanceData } from '../models/balance';
 
 interface ChartData {
   date: any,
@@ -21,14 +24,18 @@ interface ChartData {
 
 export class d3StreamComponent implements OnInit, OnChanges {
   @ViewChild('stream') private chartContainer: ElementRef;
-  @Input() private data: Array<any>;
+  @Input() data: string = "";
+
+  // @Input()
+  // content: string = "";
+
   @Input() width: number;
   @Input() height: number;
   private d3: D3;
   private parentNativeElement: any;
   private d3Svg: Selection<SVGSVGElement, any, null, undefined>;
 
-  private margin: any = { top: 20, bottom: 40, left: 20, right: 20 };
+  private margin: any = { top: 20, bottom: 40, left: 30, right: 20 };
   private chart: any;
 
   //private width: number;
@@ -50,20 +57,46 @@ export class d3StreamComponent implements OnInit, OnChanges {
 
   //private xDomain: Date;
 
+
+  // private _name = '';
+
+  // @Input()
+  // set data(name: any) {
+  //   this._name = name;
+  // }
+
+  // get data(): any { return this._name; }
+
+
   constructor(element: ElementRef, d3Service: D3Service) {
     this.d3 = d3Service.getD3();
     this.parentNativeElement = element.nativeElement;
   }
 
+  formatData(data: any) {
+    let temp = [];
+    // data = data.Items;
+    // console.log('what is date in compare init', data)
+    for (let i = 0; i < data.Items.length; i++) {
+      for (let j = 0; j < data.Items[i].Workout.L.length; j++) {
+        for (let key in data.Items[i].Workout.L[j].M) {
+          if (key === 'Duration') {
+            temp.push({
+              "userId": data.Items[i].UserId.S,
+              "start": data.Items[i].Timestamp.S,
+              "allDay": true,
+              "duration": parseInt(data.Items[i].Workout.L[j].M.Duration.S) | 30
+            })
+          }
+        }
+      };
+    };
+    return temp;
+  }
+
 
   ngOnInit() {
-
-    console.log('duration as a number?', this.data)
-
-    //0: Object { start: "Fri Nov 02 2018 00:00:00 GMT-0500 (CDT)", allDay: true, Duration: 30 }
-    // to do (1) nest my month, nest by week? 
-    // start change to month
-    //start change to week?
+    let data = this.formatData(this.data);
 
     let self = this;
     let d3 = this.d3;
@@ -85,149 +118,87 @@ export class d3StreamComponent implements OnInit, OnChanges {
 
       d3Svg
         .attr("width", width + this.margin.left + this.margin.right)
-        .attr("height", height + this.margin.top + this.margin.bottom);
-
-
+        .attr("height", height + this.margin.top + this.margin.bottom)
+        .call(this.responsivefy);
 
       // chart plot area
       this.chart = d3Svg.append<SVGGElement>('g')
-        .attr('class', 'bars')
+        .attr('class', 'lineChart')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
-
-
       // define X & Y domains
-      let xDomain: any = d3.extent(this.data, function (d) { return new Date(d['date']) });
+      let xDomain = d3.extent(data, function (d) { return new Date(d['start']); });
 
-      //let xDomain = d3.keys(this.sortByCode(this.fromParentData));
-      let yDomain = [0, 6];
+      var YDomainMaxByMonth = d3.nest<'duration', number>()
+        .key(d => d['userId'])
+        .key(d => moment(d['start']).format("YYYY-MM"))
+        .rollup(function (values: any) { return Math.round(d3.max(values, function (d) { return +d['duration']; })) })
+        .entries(data);
+
+      let yByMonth = [];
+      YDomainMaxByMonth.forEach(d => {
+        d.values.forEach(dd => {
+          yByMonth.push(dd.value)
+        })
+      });
+
+      let yDomain = [0, d3.max(yByMonth)];
+      
 
       // create scales
+      var xScale = d3.scaleTime().domain(xDomain).nice().rangeRound([0, this.width]);
+      //scaleBand()
+      var yScale = d3.scaleLinear().domain(yDomain).range([this.height, 0]);//domain(yDomain).
+      //var yScale = d3.scaleLinear().domain([0, 390]).range([0,100]);
 
-      //this.xScale = d3.scaleTime().range([0, this.width]);//.domain(xDomain)
-      this.xScale = d3.scaleTime().domain(xDomain).range([0, this.width]);
-      this.yScale = d3.scaleLinear().range([this.height, 0]);//domain(yDomain).
-
-      /*   this.xScale = d3.scaleBand().padding(0.1).domain(xDomain).rangeRound([0, width]);
-      
-           this.yScale = d3.scaleLinear().domain(yDomain).range([height, 0]); */
-
+      //console.log('yDomain',yDomain, yScale(0), yScale(30))
       // bar colors
       this.color = d3.scaleOrdinal().range(d3.schemeCategory10);
 
-
       var UserIds = d3.nest()
-        .key(d => { return d['UserId']; })
-        .entries(this.data);
+        .key(d => d['userId'])
+        .key(d => d['start'])
+        .entries(data);
 
-      UserIds.forEach(function (s) {
-        s['max'] = d3.max(s.values, function (d) { return d['effort']; });
-        s.values.map(res => res['max'] = s['max']);
-      });
+      var valueline = d3.line()
+        .x(function (d) {
+          console.log('x',xScale(new Date(d['start'])));
+           return xScale(new Date(d['start']));
+        })
+        .y(function (d) { 
+          console.log('y',yScale(d['duration']));
+          return yScale(d['duration']);
+         });
 
-
-
-      //console.log('UserIds:', UserIds, 'this.data:', this.data)
-
-
-
-      /*
-  
-      let update1 = this.chart.selectAll('.bar')
-  
-        .data(d3.entries(this.sortByCode(this.fromParentData)), function (d) {return d.key; })
-  
+      var userGroups = this.chart.selectAll(".userGroups")
+        .data(UserIds)
         .enter()
-  
         .append("g")
-  
-        .classed("UserId", true);
-  
-   
-  
-      let update = update1.selectAll('g')
-  
-        .data(function (d) { return d.value})
-  
+        .attr("class", "userGroups");
+
+      var paths = userGroups.selectAll(".line")
+        .data(function (d) { return d.values })
         .enter()
-  
-        .append("g")
-  
-        .classed("priority", true);
-  
-   
-  
-        update
-  
-        .append("rect")
-  
-      */
+        .append("path");
 
-
-
-      let svg3 = this.chart.selectAll("g.UserId")
-        .data(d3.entries(UserIds), function (d) { return d.key; })//, ,function (d) { return d.values }
-        .enter().append("g")
-        .classed("UserId", true);
-
-      let svg4 = svg3.selectAll("g")
-        .data(d3.entries(UserIds), function (d) { return d.values })//, ,function (d) { return d.values }
-        .enter().append("g")
-        .classed("key", true);
-
-      /*
-   
-       let svg5 = svg4
-   
-       .selectAll("g.key")
-   
-       .data([{due:new Date(), effort:4},{due:new Date(), effort:4},{due:new Date(), effort:4}])//, ,function (d) { return d.values }
-   
-       .enter().append("path")
-   
-       .classed("values", true)
-   
-       .attr("d", (d:any)=> {  this.yScale.domain([0,d['max']]); return line3(d); });
-   
-    
-   
-   console.log(d);     let area3 = d3.area()
-   
-         .x((d:any)=>{ return this.xScale(new Date(d['due'])); })
-   
-         .y0(this.height)
-   
-         .y1((d:any)=> { return this.yScale(d['effort']) }); */
-
-
-
-      // Add the line path elements. Note: the y-domain is set per element.
-
-      let line3 = d3.line<any>()
-        .x((d: any) => { return this.xScale(new Date(d['date'])); })
-        .y((d: any) => { return this.yScale(d['effort']) });
-
-
-      // Add the area path elements. Note: the y-domain is set per element.
-
-      /*     svg4.selectAll("g")
-      
-          .data(UserIds, function (d) { return d.values })
-      
-          .enter()
-      
-          .append("path")
-      
-            .attr("class", "line")
-      
-            .attr("d", (d:any)=> { this.yScale.domain([0,d['max']]); return line3(d); }); */
+      paths
+      .attr("class", "line")
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 10)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
+        .attr("d", function (d) {
+          //console.log('d2',d,d.values);
+          return valueline(d.values)
+          //return valueline(d.values)
+        });
 
       // x & y axis
-
       this.xAxis = d3Svg.append<SVGGElement>('g')
         .attr('class', 'axis axis-x')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top + height})`)
-        .call(d3.axisBottom(this.xScale))
+        .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%d %b")))
         .selectAll("text")
         .style("text-anchor", "end")
         .style("fill", "black")
@@ -235,16 +206,24 @@ export class d3StreamComponent implements OnInit, OnChanges {
         .attr("dy", 8)
         .attr("transform", "translate(0,0) rotate(-45)");
 
+        // .call(d3.axisBottom(x)
+        //   .ticks(d3.timeMonth)
+        //   .tickSize(0, 0)
+        //   .tickFormat(d3.timeFormat("%B"))
+        //   .tickSizeInner(0)
+        //   .tickPadding(10));
+
       this.yAxis = d3Svg.append<SVGGElement>('g')
         .attr('class', 'axis axis-y')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
-        .call(d3.axisLeft(this.yScale))
+        .call(d3.axisLeft(yScale))
     }
 
     //this.createChart();
     //this.updateChart();
 
     //}
+
 
   }
 
@@ -268,7 +247,7 @@ export class d3StreamComponent implements OnInit, OnChanges {
     let element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    console.log('element.offsetHeight', element.offsetWidth, element.offsetHeight, this.margin)
+    //console.log('element.offsetHeight', element.offsetWidth, element.offsetHeight, this.margin)
 
 
     let svg = d3.select(element).append('svg')
@@ -286,7 +265,7 @@ export class d3StreamComponent implements OnInit, OnChanges {
       .entries(this.data);
 
     // define X & Y domains
-    let xDomain = d3.extent(this.data, function (d) { return new Date(d['date']) });
+    let xDomain = d3.extent(this.data, function (d) { return new Date(d['start']) });
 
     //let yDomain = [0, 5];//Object(this.nestMax).value
 
@@ -302,7 +281,7 @@ export class d3StreamComponent implements OnInit, OnChanges {
 
 
     UserIds.forEach(function (s) {
-      s['max'] = d3.max(s.values, function (d) { return d['effort']; });
+      s['max'] = d3.max(s.values, function (d) { return d['duration']; });
       s.values.map(res => res['max'] = s['max']);
     });
 
@@ -359,17 +338,17 @@ export class d3StreamComponent implements OnInit, OnChanges {
 
 
     let area3 = d3.area()
-      .x((d: any) => { return this.xScale(new Date(d['date'])); })
+      .x((d: any) => { return this.xScale(new Date(d['start'])); })
       .y0(this.height)
-      .y1((d: any) => { return this.yScale(d['effort']) });
+      .y1((d: any) => { return this.yScale(d['duration']) });
 
 
 
     // Add the line path elements. Note: the y-domain is set per element.
 
     let line3 = d3.line<any>()
-      .x((d: any) => { return this.xScale(new Date(d['date'])); })
-      .y((d: any) => { return this.yScale(d['effort']) });
+      .x((d: any) => { return this.xScale(new Date(d['start'])); })
+      .y((d: any) => { return this.yScale(d['duration']) });
 
 
 
@@ -566,7 +545,6 @@ export class d3StreamComponent implements OnInit, OnChanges {
   }
 
 
-
   updateChart() {
 
     // define X & Y domains
@@ -697,104 +675,33 @@ export class d3StreamComponent implements OnInit, OnChanges {
 
 
 
-  }
+
+  
 
 }
 
+responsivefy(svg) {
+  // get container + svg aspect ratio
+  var container = d3.select(svg.node().parentNode),
+      width = parseInt(svg.style("width")),
+      height = parseInt(svg.style("height")),
+      aspect = width / height;
+  // add viewBox and preserveAspectRatio properties,
+  // and call resize so that svg resizes on inital page load
+  svg.attr("viewBox", "0 0 " + width + " " + height)
+      .attr("preserveAspectRatio", "xMinYMid")
+      .call(resize);
+  // to register multiple listeners for same event type,
+  // you need to add namespace, i.e., 'click.foo'
+  // necessary if you call invoke this function for multiple svgs
+  // api docs: https://github.com/mbostock/d3/wiki/Selections#on
+  d3.select(window).on("resize." + container.attr("id"), resize);
+  // get width of container and resize svg to fit it
+  function resize() {
+      var targetWidth = parseInt(container.style("width"));
+      svg.attr("width", targetWidth);
+      svg.attr("height", Math.round(targetWidth / aspect));
+  }
 
-
-/*
-
-var multi1 = [
-
-  {
-
-    "name": "Germany",
-
-    "series": [
-
-      {
-
-        "name": "2010",
-
-        "value": 7300000
-
-      },
-
-      {
-
-        "name": "2011",
-
-        "value": 8940000
-
-      }
-
-    ]
-
-  },
-
- 
-
-[
-
-  {
-
-    "name": "Cheng En Lai",
-
-    "series": [
-
-      {
-
-        "UserId": "Cheng En Lai",
-
-        "date": "2017-09-29",
-
-        "value": 2
-
-      },
-
-      {
-
-        "UserId": "Cheng En Lai",
-
- 
-
-[
-
-  {
-
-    "name": "Cameroon",
-
-    "series": [
-
-      {
-
-        "value": 6171,
-
-        "name": "2016-09-21T18:19:18.969Z"
-
-      },
-
-      {
-
-        "value": 3876,
-
-        "name": "2016-09-17T15:48:25.477Z"
-
-      },
-
- 
-
-*/
-
-
-
-/*   var area = d3.area()
-
-                .x(function(d) { return this.xScale(d['key']); })
-
-                .y0(function(d) { return this.yScale(d['y0']); })
-
-                .y1(function(d) { return this.yScale(d['y0'] + d['y']); });
-
-*/
+}
+}

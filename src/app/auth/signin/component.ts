@@ -79,7 +79,7 @@ export class SigninComponent implements OnInit {
     this.authService.setPreviousAppParams(this.router.routerState.snapshot.root.queryParams);
     this.authService.getCurrentUser((err, currentSignedInUser) => {
       if (currentSignedInUser && currentSignedInUser.signedIn) {
-        console.log('logging',currentSignedInUser, currentSignedInUser.signedIn)
+        //console.log('logging',currentSignedInUser, currentSignedInUser.signedIn)
         this.authService.handleRedirect();
       }
     });

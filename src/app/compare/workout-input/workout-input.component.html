@@ -1,13 +1,29 @@
+<!-- <form name="form" [formGroup]="form">
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="purchaseDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  </form> -->
+
+  <!-- <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+   -->
+
+
 <div class="example-container">
   <form [formGroup]="workoutForm" (ngSubmit)="onSubmit()" novalidate class="example-form" >
-    <div formGroupName="workoutData" novalidate>
+    <!-- <div formGroupName="workoutData" novalidate> -->
       <!-- <input formControlName="date"> -->
       <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="timestamp">
+        <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="timestamp" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker touchUi #picker></mat-datepicker>
       </mat-form-field>
-    </div>
+    <!-- </div> -->
     <!-- <select formControlName="requestType">
       <option *ngFor="let requestType of requestTypes" [value]="requestType">{{requestType}}</option>
     </select> -->
@@ -16,7 +32,12 @@
     <!-- <button type="submit" [disabled]="workoutForm.pristine">Save</button>
     <button type="reset" (click)="revert()" [disabled]="workoutForm.pristine">Revert</button> -->
   </form>
+  <!-- <p>Form value: {{  | json }}</p> -->
 
+  <div class="example-events">
+    <div *ngFor="let e of events">{{e}}</div>
+  </div>
+  
 
 <h4>mat select</h4>
 <mat-form-field>
@@ -30,7 +51,7 @@
   <mat-hint>{{animalControl.value?.sound}}</mat-hint>
 </mat-form-field>
 </div>
-<p>Form value: {{ workoutForm.value | json }}</p>
+
 
 
 

@@ -6,6 +6,7 @@ import { BalanceData, BalanceDataClass } from 'app/models/balance';
 import { CalendarComponent } from 'ng-fullcalendar';
 import { Options } from 'fullcalendar';
 import { EventSesrvice } from './event.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-compare',
@@ -15,67 +16,61 @@ import { EventSesrvice } from './event.service';
 
 export class CompareComponent implements OnInit {
   doInput = true;
+  //@Input() calendarData: any = [];
   @Input() calendarData: any = [];
   graphData: any = [];
   workoutData: BalanceData;
-  workoutData1: any = [
-    // Object { title: "All Day Event", start: "2018-11-01" }
-    { title: "a", start: 'Tue Nov 13 2018 00:00:00 GMT-0600 (CST)' },
-    { title: "b", start: 'Wed Nov 14 2018 00:00:00 GMT-0600 (CST)' },
-    { title: "c", start: 'Thur Nov 15 2018 00:00:00 GMT-0600 (CST)' },
-  ]
   calendarOptions: Options;
   errorMessage: string;
   displayEvent: any;
   @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
 
-
-  constructor(private compareService: CompareService, protected eventService: EventSesrvice) { }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.calendarData) {
-      console.log('calendarData changed')
-    }
-  }
-
+  constructor(private compareService: CompareService) {}
+ 
   ngOnInit() {
+    let temp =[];
+    
     this.compareService.getProducts().subscribe(
-      (data: BalanceData) => {
-        //this.workoutData = data;
-        //let temp = [];
-        let obj = {};
-        const dateObj = new Date();
-        const yearMonth = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1);
-        // console.log('data, only what dats and duration?', data['Items'])
-        for (let i = 0; i < data['Items'].length; i++) {
-          //console.log('element', data['Items'][i].Workout)
-          for (let j = 0; j < data['Items'][i].Workout.L.length; j++) {
-            for (let key in data['Items'][i].Workout.L[j].M) {
+      (data: any) => {
+        this.workoutData = data;
+      })
+
+
+    this.compareService.getProducts().subscribe(
+      (data: any) => {
+        // data = data.Items;
+        // console.log('what is date in compare init', data)
+        for (let i = 0; i < data.Items.length; i++) {
+          for (let j = 0; j < data.Items[i].Workout.L.length; j++) {
+            for (let key in data.Items[i].Workout.L[j].M) {
               if(key === 'Duration'){
-              //console.log(data['Items'][i].Workout.L[j].M.Duration.S)
-              obj[i] = { start: data['Items'][i].Timestamp.S, allDay: true, Duration:parseInt(data['Items'][i].Workout.L[j].M.Duration.S)}
+                temp.push({ "start": moment(data.Items[i].Timestamp.S).format('YYYY-M-DD').toString(), "allDay": true, "duration":parseInt(data.Items[i].Workout.L[j].M.Duration.S)|30})
               }
             }
-          }
-
-          this.calendarData.push(obj[i])
+          };
         };
-
-        this.calendarOptions = {
-          editable: true,
-          eventLimit: false,
-          header: {
-            left: 'prev,next,today',
-            //left: null,
-            center: 'title',
-            //right: 'month,agendaWeek,agendaDay,listMonth'
-            right: null
-          },
-          events: this.calendarData
-        };
-
+        this.calendarData = temp;
+        // console.log('from get',this.calendarData.length)
       }, // success path
       error => this.errorMessage = error // error path
     );
+
+    this.populateCalendar(this.calendarOptions);
+  }
+
+  populateCalendar(data):any{
+      return this.calendarOptions = {
+        editable: true,
+        eventLimit: false,
+        header: {
+          left: 'prev,next,today',
+          //left: null,
+          center: 'title',
+          //right: 'month,agendaWeek,agendaDay,listMonth'
+          right: null
+        },
+        events: this.calendarData
+      };
   }
 
   clickButton(model: any) {

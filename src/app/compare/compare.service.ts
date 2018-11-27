@@ -11,7 +11,6 @@ import 'rxjs/add/operator/map';
 
 import { CompareData } from './compare-data.model';
 //import { Workout } from '../models/workout';
-import { Workout1 } from '../models/workout1';
 import { BalanceData } from '../models/balance';
 import { AuthService } from '../auth/service';
 
@@ -41,7 +40,8 @@ export class CompareService {
         headers: new HttpHeaders({ 'Authorization': session.getIdToken().getJwtToken() })
       })
         .pipe(
-          tap(data => JSON.stringify(data)),
+          tap(data => data),
+          //tap(data => JSON.stringify(data)),
         catchError(this.handleError)
       );
   });

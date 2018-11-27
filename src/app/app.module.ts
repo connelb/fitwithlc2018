@@ -20,7 +20,13 @@ import { AppRoutingModule } from './app-routing.module';
 
 // import { FwModule } from '../fw/fw.module';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { MatMomentDateModule,MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+// import {default as _rollupMoment} from 'moment';
 
+// const moment = _rollupMoment || _moment;
 
 // import {
 //   //AuthService,
@@ -76,6 +82,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthenicatedModule } from './authenicated/authenicated.module';
 import { AuthModule } from './auth/auth.module';
 import { AppMaterialModule } from './app-material/app-material.module';
+import { CustomDateAdapter } from './services/custom-date.adapter';
 
 
 @NgModule({
@@ -92,6 +99,7 @@ import { AppMaterialModule } from './app-material/app-material.module';
     HttpClientModule,
     BrowserAnimationsModule,
     AppMaterialModule,
+    MatMomentDateModule,
     LayoutModule,
     ReactiveFormsModule,
     FlexLayoutModule,
@@ -104,7 +112,10 @@ import { AppMaterialModule } from './app-material/app-material.module';
     // AuthService,
     //UserService,
     //{ useExisting: UserService }, 
-
+    // {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    // {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+    CustomDateAdapter, // so we could inject services to 'CustomDateAdapter'
+    { provide: DateAdapter, useClass: CustomDateAdapter }, // Parse MatDatePicker Format
   ],
   bootstrap: [AppComponent]
 })
